@@ -1,0 +1,9 @@
+#程序日志位置
+log: logs/wechat.log
+#日志等级
+log_level: "debug"
+#微信监听地址
+listen_port: 8000
+#消息监听转发地址
+message_notify_url:
+  - "http://127.0.0.1/test"

@@ -1,0 +1,27 @@
+Log file created at: 2022/11/02 21:57:13
+Running on machine: DESKTOP-ADV15SP
+Running duration (h:mm:ss): 0:00:00
+Log line format: [IWEF]yyyymmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I20221102 21:57:13.654435 21800 dllmain.cpp:13] Robot Start, isWxLogin: 1, pid: 22508
+I20221102 21:57:14.763756 19208 ReceiveMessage.cpp:147] msgid: 4262819910769657777 send begin.
+I20221102 21:57:14.763756 19208 ReceiveMessage.cpp:148] type: 1, sender: wxid_06f8wjqrgqkt22
+I20221102 21:57:14.763756 19208 ReceiveMessage.cpp:149] content size: 432
+I20221102 21:57:23.018754 18024 ReceiveMessage.cpp:147] msgid: 813730832698869471 send begin.
+I20221102 21:57:23.018754 18024 ReceiveMessage.cpp:148] type: 1, sender: filehelper
+I20221102 21:57:23.018754 18024 ReceiveMessage.cpp:149] content size: 305
+I20221102 21:57:30.674715 11800 ReceiveMessage.cpp:147] msgid: 2833174707602528924 send begin.
+I20221102 21:57:30.674715 11800 ReceiveMessage.cpp:148] type: 1, sender: filehelper
+I20221102 21:57:30.674715 11800 ReceiveMessage.cpp:149] content size: 306
+I20221102 21:57:36.877290  1840 ReceiveMessage.cpp:147] msgid: 8019597301610183496 send begin.
+I20221102 21:57:36.877290  1840 ReceiveMessage.cpp:148] type: 47, sender: wxid_etu4b68tdnlf22
+I20221102 21:57:36.877290  1840 ReceiveMessage.cpp:149] content size: 2190
+I20221102 21:57:44.224545  9484 ReceiveMessage.cpp:147] msgid: 11862663586119950 send begin.
+I20221102 21:57:44.239912  9484 ReceiveMessage.cpp:148] type: 1, sender: wxid_06f8wjqrgqkt22
+I20221102 21:57:44.239912  9484 ReceiveMessage.cpp:149] content size: 458
+I20221102 21:57:47.075747  8472 ReceiveMessage.cpp:147] msgid: 477352523973410122 send begin.
+I20221102 21:57:47.075747  8472 ReceiveMessage.cpp:148] type: 1, sender: wxid_etu4b68tdnlf22
+I20221102 21:57:47.075747  8472 ReceiveMessage.cpp:149] content size: 444
+I20221102 21:57:47.664767  9812 ReceiveMessage.cpp:147] msgid: 6989339784513235390 send begin.
+I20221102 21:57:47.664767  9812 ReceiveMessage.cpp:148] type: 1, sender: ech0_q
+I20221102 21:57:47.664767  9812 ReceiveMessage.cpp:149] content size: 432
+I20221102 21:57:47.667994 13276 dllmain.cpp:32] Robot Stop

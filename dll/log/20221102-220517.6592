@@ -1,0 +1,60 @@
+Log file created at: 2022/11/02 22:05:17
+Running on machine: DESKTOP-ADV15SP
+Running duration (h:mm:ss): 0:00:00
+Log line format: [IWEF]yyyymmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I20221102 22:05:17.820156 19780 dllmain.cpp:13] Robot Start, isWxLogin: 1, pid: 6592
+I20221102 22:05:18.383327 15180 ReceiveMessage.cpp:147] msgid: 8668568796025165115 send begin.
+I20221102 22:05:18.383327 15180 ReceiveMessage.cpp:148] type: 10002, sender: weixin
+I20221102 22:05:18.383327 15180 ReceiveMessage.cpp:149] content size: 486
+I20221102 22:05:18.384327 12740 ReceiveMessage.cpp:147] msgid: 1602943376149957023 send begin.
+I20221102 22:05:18.384327 12740 ReceiveMessage.cpp:148] type: 1, sender: wxid_etu4b68tdnlf22
+I20221102 22:05:18.384327 12740 ReceiveMessage.cpp:149] content size: 435
+I20221102 22:05:18.516903 23020 ReceiveMessage.cpp:147] msgid: 2485798100757462903 send begin.
+I20221102 22:05:18.516903 23020 ReceiveMessage.cpp:148] type: 51, sender: wangshi__chen
+I20221102 22:05:18.516903 23020 ReceiveMessage.cpp:149] content size: 2201
+I20221102 22:05:18.518242  2540 ReceiveMessage.cpp:147] msgid: 8638194299819820172 send begin.
+I20221102 22:05:18.518242  2540 ReceiveMessage.cpp:148] type: 1, sender: wxid_etu4b68tdnlf22
+I20221102 22:05:18.518242  2540 ReceiveMessage.cpp:149] content size: 444
+I20221102 22:05:19.296753 10512 ReceiveMessage.cpp:147] msgid: 3068353236812116549 send begin.
+I20221102 22:05:19.296753 10512 ReceiveMessage.cpp:148] type: 3, sender: wxid_xjedvhasm48i22
+I20221102 22:05:19.296753 10512 ReceiveMessage.cpp:149] content size: 1635
+I20221102 22:05:21.259757  7912 ReceiveMessage.cpp:147] msgid: 7918546709542431382 send begin.
+I20221102 22:05:21.259757  7912 ReceiveMessage.cpp:148] type: 1, sender: wxid_etu4b68tdnlf22
+I20221102 22:05:21.259757  7912 ReceiveMessage.cpp:149] content size: 435
+I20221102 22:05:23.578713 18172 ReceiveMessage.cpp:147] msgid: 4358869530039239424 send begin.
+I20221102 22:05:23.578713 18172 ReceiveMessage.cpp:148] type: 1, sender: filehelper
+I20221102 22:05:23.578713 18172 ReceiveMessage.cpp:149] content size: 300
+I20221102 22:05:25.050300 13576 ReceiveMessage.cpp:147] msgid: 661507549955370610 send begin.
+I20221102 22:05:25.050300 13576 ReceiveMessage.cpp:148] type: 1, sender: filehelper
+I20221102 22:05:25.050300 13576 ReceiveMessage.cpp:149] content size: 305
+I20221102 22:05:25.229980 10308 ReceiveMessage.cpp:147] msgid: 1153843403862598037 send begin.
+I20221102 22:05:25.229980 10308 ReceiveMessage.cpp:148] type: 1, sender: wxid_xjedvhasm48i22
+I20221102 22:05:25.229980 10308 ReceiveMessage.cpp:149] content size: 447
+I20221102 22:05:25.450699  5576 ReceiveMessage.cpp:147] msgid: 8317130650565194312 send begin.
+I20221102 22:05:25.450699  5576 ReceiveMessage.cpp:148] type: 51, sender: wangshi__chen
+I20221102 22:05:25.450699  5576 ReceiveMessage.cpp:149] content size: 2201
+I20221102 22:05:26.524361 22776 ReceiveMessage.cpp:147] msgid: 4196733263447575999 send begin.
+I20221102 22:05:26.524361 22776 ReceiveMessage.cpp:148] type: 1, sender: wxid_etu4b68tdnlf22
+I20221102 22:05:26.524361 22776 ReceiveMessage.cpp:149] content size: 438
+I20221102 22:05:26.932538  6748 ReceiveMessage.cpp:147] msgid: 4247014236887297972 send begin.
+I20221102 22:05:26.932538  6748 ReceiveMessage.cpp:148] type: 1, sender: moji313301
+I20221102 22:05:26.932538  6748 ReceiveMessage.cpp:149] content size: 453
+I20221102 22:05:32.053987  5072 ReceiveMessage.cpp:147] msgid: 590864790443154443 send begin.
+I20221102 22:05:32.053987  5072 ReceiveMessage.cpp:148] type: 10002, sender: 25594070498@chatroom
+I20221102 22:05:32.053987  5072 ReceiveMessage.cpp:149] content size: 492
+I20221102 22:05:32.056973   616 ReceiveMessage.cpp:147] msgid: 1602943376149957023 send begin.
+I20221102 22:05:32.056973   616 ReceiveMessage.cpp:148] type: 10000, sender: wxid_etu4b68tdnlf22
+I20221102 22:05:32.056973   616 ReceiveMessage.cpp:149] content size: 342
+I20221102 22:05:33.797940  2208 ReceiveMessage.cpp:147] msgid: 3938372882883652309 send begin.
+I20221102 22:05:33.797940  2208 ReceiveMessage.cpp:148] type: 1, sender: filehelper
+I20221102 22:05:33.797940  2208 ReceiveMessage.cpp:149] content size: 304
+I20221102 22:05:35.868338  5436 ReceiveMessage.cpp:147] msgid: 4152769984114547722 send begin.
+I20221102 22:05:35.868338  5436 ReceiveMessage.cpp:148] type: 51, sender: wangshi__chen
+I20221102 22:05:35.868338  5436 ReceiveMessage.cpp:149] content size: 2201
+I20221102 22:05:35.869338  4008 ReceiveMessage.cpp:147] msgid: 5583538136348978244 send begin.
+I20221102 22:05:35.870338  4008 ReceiveMessage.cpp:148] type: 1, sender: wxid_etu4b68tdnlf22
+I20221102 22:05:35.870338  4008 ReceiveMessage.cpp:149] content size: 496
+I20221102 22:05:44.201272  9384 ReceiveMessage.cpp:147] msgid: 1507375919650596998 send begin.
+I20221102 22:05:44.201272  9384 ReceiveMessage.cpp:148] type: 1, sender: ech0_q
+I20221102 22:05:44.201272  9384 ReceiveMessage.cpp:149] content size: 531
+I20221102 22:05:44.204825 10664 dllmain.cpp:32] Robot Stop
