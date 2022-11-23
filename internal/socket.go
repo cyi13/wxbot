@@ -2,38 +2,49 @@ package internal
 
 import (
 	"bufio"
-	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"log"
 	"net"
-	"net/http"
 	"time"
+	"wxbot/internal/global"
+	"wxbot/internal/qun"
+	"wxbot/internal/subscribe"
 	"wxbot/pkg/api"
 	"wxbot/pkg/logger"
 )
 
 type MessageRead struct {
-	notifyURL []string
-
+	handler  []MessageHandler
 	textPort int
 	server   *api.Api
 	done     chan struct{}
+}
+
+type MessageHandler interface {
+	Text(message *api.TextMessage)
 }
 
 const (
 	HOOK_TEXT = iota
 )
 
-func NewMessageRead(wechatPort int, notifyURL []string) (*MessageRead, error) {
+func NewMessageRead(wechatPort int) (*MessageRead, error) {
 	sv := api.New(fmt.Sprintf("127.0.0.1:%d", wechatPort))
-	return &MessageRead{
-		notifyURL: notifyURL,
 
+	//消息处理
+	handler := []MessageHandler{
+		qun.New(),
+		subscribe.NewHttp(global.Config.MessageNotifyURL),
+	}
+
+	return &MessageRead{
 		textPort: 10808,
 		server:   sv,
 		done:     make(chan struct{}),
+		handler:  handler,
 	}, nil
 }
 
@@ -56,7 +67,22 @@ func (m *MessageRead) SubscribeText() error {
 	}
 	return m.subscribe(m.textPort, HOOK_TEXT, func(data []byte) {
 		logger.Debugf("text msg %s", string(data))
-		m.notify(data)
+		var message api.TextMessage
+		if err := json.Unmarshal(data, &message); err != nil {
+			logger.Warnf("unmarshal message error %s", err.Error())
+			return
+		}
+		//过滤自身发的消息
+		if message.IsSendMsg == 1 {
+			return
+		}
+
+		//todo 并发
+		//消息转发
+		for _, v := range m.handler {
+			handler := v
+			go handler.Text(&message)
+		}
 	})
 }
 
@@ -108,24 +134,6 @@ func (m *MessageRead) stopHook(htype int) error {
 	return errors.New(rs.Result)
 }
 
-// 消息通知
-func (m *MessageRead) notify(data []byte) {
-	if len(m.notifyURL) == 0 || len(data) == 0 {
-		return
-	}
-	for _, v := range m.notifyURL {
-		resp, err := http.Post(v, "application/json", bytes.NewReader(data))
-		if err != nil {
-			logger.Errorf("%s 消息通知失败 %s", v, err.Error())
-			continue
-		}
-		if resp.StatusCode != http.StatusOK {
-			logger.Errorf("%s 消息通知失败 status code not 200, get %d", v, resp.StatusCode)
-			continue
-		}
-	}
-}
-
 func (m *MessageRead) subscribe(port, hookType int, call func(data []byte)) error {
 	address := fmt.Sprintf("127.0.0.1:%d", port)
 	listen, err := net.Listen("tcp", address)
@@ -146,14 +154,14 @@ func (m *MessageRead) subscribe(port, hookType int, call func(data []byte)) erro
 				if err != nil {
 					log.Fatal(err)
 				}
-				go m.handler(conn, call)
+				go m.sockerHandler(conn, call)
 			}
 		}
 	}()
 	return nil
 }
 
-func (m *MessageRead) handler(conn net.Conn, call func(data []byte)) {
+func (m *MessageRead) sockerHandler(conn net.Conn, call func(data []byte)) {
 	defer conn.Close()
 	var (
 		rs  []byte

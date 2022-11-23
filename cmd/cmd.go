@@ -8,6 +8,7 @@ import (
 	"syscall"
 	"wxbot/internal"
 	"wxbot/internal/config"
+	"wxbot/internal/global"
 	"wxbot/pkg/api"
 	"wxbot/pkg/logger"
 )
@@ -18,6 +19,7 @@ func Execute() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	global.Config = conf
 
 	//日志初始化
 	logger.InitDefault(conf.Log, conf.LogLevel)
@@ -38,14 +40,14 @@ func Execute() {
 	logger.Infof("用户信息 %+v\n", selfInfo)
 
 	//订阅消息
-	read, err := internal.NewMessageRead(conf.ListenPort, conf.MessageNotifyURL)
+	read, err := internal.NewMessageRead(conf.ListenPort)
 	if err != nil {
 		log.Fatal(err)
 	}
 	read.Start()
 	defer read.Stop()
 
-	//退出命令监听
+	// 退出命令监听
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
 	<-signalChan
