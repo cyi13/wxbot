@@ -281,15 +281,17 @@ func (a *Api) RequestMsgStopVoiceHook() (*CommonResult, error) {
 }
 
 type ContactGetListResult struct {
-	Data []struct {
-		WxNickName   string `json:"wxNickName"`
-		WxNumber     string `json:"wxNumber"`
-		WxRemark     string `json:"wxRemark"`
-		WxType       int    `json:"wxType"`
-		WxVerifyFlag int    `json:"wxVerifyFlag"`
-		Wxid         string `json:"wxid"`
-	} `json:"data"`
-	Result string `json:"result"`
+	Data   []ContractInfo `json:"data"`
+	Result string         `json:"result"`
+}
+
+type ContractInfo struct {
+	WxNickName   string `json:"wxNickName"`
+	WxNumber     string `json:"wxNumber"`
+	WxRemark     string `json:"wxRemark"`
+	WxType       int    `json:"wxType"`
+	WxVerifyFlag int    `json:"wxVerifyFlag"`
+	Wxid         string `json:"wxid"`
 }
 
 // contact 获取联系人列表
@@ -810,9 +812,25 @@ func (a *Api) sendApi(t Type, data, v interface{}) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(string(respData))
 	if err := json.Unmarshal(respData, v); err != nil {
 		return err
 	}
 	return nil
+}
+
+type TextMessage struct {
+	Extrainfo string `json:"extrainfo"`
+	Filepath  string `json:"filepath"`
+	IsSendMsg int    `json:"isSendMsg"`
+	Message   string `json:"message"`
+	Msgid     int64  `json:"msgid"`
+	Pid       int    `json:"pid"`
+	Self      string `json:"self"`
+	Sender    string `json:"sender"`
+	Sign      string `json:"sign"`
+	ThumbPath string `json:"thumb_path"`
+	Time      string `json:"time"`
+	Timestamp int    `json:"timestamp"`
+	Type      int    `json:"type"`
+	Wxid      string `json:"wxid"`
 }
