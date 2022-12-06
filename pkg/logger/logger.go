@@ -88,11 +88,19 @@ var (
 // Init 初始化日志
 func Init(logfile string, level zapcore.Level) *SugaredLogger {
 	writer := logWriter(logfile, 500, false)
-	log := zap.New(zapcore.NewCore(zapcore.NewConsoleEncoder(logEncoder()),
-		// logStdOut(),
-		writer,
-		zapcore.Level(level),
-	))
+	var log *zap.Logger
+	if logfile == "std" || logfile == "" {
+		log = zap.New(zapcore.NewCore(zapcore.NewConsoleEncoder(logEncoder()),
+			logStdOut(),
+			zapcore.Level(level),
+		))
+	} else {
+		log = zap.New(zapcore.NewCore(zapcore.NewConsoleEncoder(logEncoder()),
+			writer,
+			zapcore.Level(level),
+		))
+	}
+
 	return &SugaredLogger{
 		SugaredLogger: log.Sugar(),
 		writer:        writer,

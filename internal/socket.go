@@ -3,6 +3,7 @@ package internal
 import (
 	"bufio"
 	"encoding/json"
+	"encoding/xml"
 	"errors"
 	"fmt"
 	"io"
@@ -31,12 +32,12 @@ const (
 	HOOK_TEXT = iota
 )
 
-func NewMessageRead(wechatPort int) (*MessageRead, error) {
-	sv := api.New(fmt.Sprintf("127.0.0.1:%d", wechatPort))
+func NewMessageRead(apiAddress string) (*MessageRead, error) {
+	sv := api.New(apiAddress)
 
 	//消息处理
 	handler := []MessageHandler{
-		qun.New(),
+		qun.DefaultHandler,
 		subscribe.NewHttp(global.Config.MessageNotifyURL),
 	}
 
@@ -67,23 +68,44 @@ func (m *MessageRead) SubscribeText() error {
 	}
 	return m.subscribe(m.textPort, HOOK_TEXT, func(data []byte) {
 		logger.Debugf("text msg %s", string(data))
-		var message api.TextMessage
-		if err := json.Unmarshal(data, &message); err != nil {
+		message, err := m.UnmarshalText(data)
+		if err != nil {
 			logger.Warnf("unmarshal message error %s", err.Error())
 			return
 		}
+
 		//过滤自身发的消息
 		if message.IsSendMsg == 1 {
 			return
 		}
-
-		//todo 并发
 		//消息转发
 		for _, v := range m.handler {
 			handler := v
-			go handler.Text(&message)
+			go handler.Text(message)
 		}
 	})
+}
+
+func (m *MessageRead) UnmarshalText(body []byte) (*api.TextMessage, error) {
+	var message api.TextMessage
+	if err := json.Unmarshal(body, &message); err != nil {
+		logger.Warnf("unmarshal message error %s", err.Error())
+		return nil, err
+	}
+
+	if message.Extrainfo == "" {
+		return &message, nil
+	}
+	//解析extra 数据
+	var extra api.TextMessageExtra
+	if err := xml.Unmarshal([]byte(message.Extrainfo), &extra); err != nil {
+		logger.Warnf("umarsha xml %s error %s", message.Extrainfo, err.Error())
+		return &message, nil
+	}
+
+	message.Extra = extra
+	return &message, nil
+
 }
 
 func (m *MessageRead) starHook(htype int) error {

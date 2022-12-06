@@ -3,11 +3,13 @@ package api
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 	"time"
+	"wxbot/pkg/logger"
 )
 
 type Api struct {
@@ -42,22 +44,24 @@ func (a *Api) RequestIsLogin() (*IsLoginResult, error) {
 }
 
 type GetSelfInfoResult struct {
-	Data struct {
-		PhoneNumber   string `json:"PhoneNumber"`
-		Sex           string `json:"Sex"`
-		Uin           int    `json:"uin"`
-		WxBigAvatar   string `json:"wxBigAvatar"`
-		WxCity        string `json:"wxCity"`
-		WxFilePath    string `json:"wxFilePath"`
-		WxID          string `json:"wxId"`
-		WxNation      string `json:"wxNation"`
-		WxNickName    string `json:"wxNickName"`
-		WxNumber      string `json:"wxNumber"`
-		WxProvince    string `json:"wxProvince"`
-		WxSignature   string `json:"wxSignature"`
-		WxSmallAvatar string `json:"wxSmallAvatar"`
-	} `json:"data"`
-	Result string `json:"result"`
+	SelfInfo `json:"data"`
+	Result   string `json:"result"`
+}
+
+type SelfInfo struct {
+	PhoneNumber   string `json:"PhoneNumber"`
+	Sex           string `json:"Sex"`
+	Uin           int    `json:"uin"`
+	WxBigAvatar   string `json:"wxBigAvatar"`
+	WxCity        string `json:"wxCity"`
+	WxFilePath    string `json:"wxFilePath"`
+	WxID          string `json:"wxId"`
+	WxNation      string `json:"wxNation"`
+	WxNickName    string `json:"wxNickName"`
+	WxNumber      string `json:"wxNumber"`
+	WxProvince    string `json:"wxProvince"`
+	WxSignature   string `json:"wxSignature"`
+	WxSmallAvatar string `json:"wxSmallAvatar"`
 }
 
 // 获取个人信息
@@ -812,25 +816,34 @@ func (a *Api) sendApi(t Type, data, v interface{}) error {
 	if err != nil {
 		return err
 	}
+	logger.Infof("request %s res %s", host, string(respData))
 	if err := json.Unmarshal(respData, v); err != nil {
 		return err
 	}
 	return nil
 }
 
+// 文本消息格式
 type TextMessage struct {
-	Extrainfo string `json:"extrainfo"`
-	Filepath  string `json:"filepath"`
-	IsSendMsg int    `json:"isSendMsg"`
-	Message   string `json:"message"`
-	Msgid     int64  `json:"msgid"`
-	Pid       int    `json:"pid"`
-	Self      string `json:"self"`
-	Sender    string `json:"sender"`
-	Sign      string `json:"sign"`
-	ThumbPath string `json:"thumb_path"`
-	Time      string `json:"time"`
-	Timestamp int    `json:"timestamp"`
-	Type      int    `json:"type"`
-	Wxid      string `json:"wxid"`
+	Extrainfo string           `json:"extrainfo"`
+	Extra     TextMessageExtra `json:"-"`
+	Filepath  string           `json:"filepath"`
+	IsSendMsg int              `json:"isSendMsg"`
+	Message   string           `json:"message"`
+	Msgid     int64            `json:"msgid"`
+	Pid       int              `json:"pid"`
+	Self      string           `json:"self"`
+	Sender    string           `json:"sender"`
+	Sign      string           `json:"sign"`
+	ThumbPath string           `json:"thumb_path"`
+	Time      string           `json:"time"`
+	Timestamp int              `json:"timestamp"`
+	Type      int              `json:"type"`
+	Wxid      string           `json:"wxid"`
+}
+
+// 文本消息的额外字段，为xml格式
+type TextMessageExtra struct {
+	XMLNAME    xml.Name `xml:"msgsource"`
+	Atuserlist string   `xml:"atuserlist"`
 }

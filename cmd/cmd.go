@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -9,38 +8,29 @@ import (
 	"wxbot/internal"
 	"wxbot/internal/config"
 	"wxbot/internal/global"
+	"wxbot/internal/qun"
 	"wxbot/pkg/api"
 	"wxbot/pkg/logger"
 )
 
 func Execute() {
-	//配置文件加载
-	conf, err := config.Load("conf/config.yaml")
-	if err != nil {
-		log.Fatal(err)
-	}
-	global.Config = conf
-
-	//日志初始化
-	logger.InitDefault(conf.Log, conf.LogLevel)
-
+	Init()
 	//启动微信监听
-	sv, err := internal.NewWechatService(8000)
+	sv, err := internal.NewWechatService(global.Config.ListenPort)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer sv.Stop()
 
-	//测试api
-	a := api.New(fmt.Sprintf("127.0.0.1:%d", conf.ListenPort))
-	selfInfo, err := a.RequestGetSelfInfo()
+	selfInfo, err := global.Api.RequestGetSelfInfo()
 	if err != nil {
 		log.Fatal(err)
 	}
 	logger.Infof("用户信息 %+v\n", selfInfo)
+	global.Self = selfInfo.SelfInfo
 
 	//订阅消息
-	read, err := internal.NewMessageRead(conf.ListenPort)
+	read, err := internal.NewMessageRead(global.Config.WeChatApiAddress)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -51,4 +41,24 @@ func Execute() {
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
 	<-signalChan
+}
+
+// todo 优化
+func Init() {
+	// 配置文件加载
+	conf, err := config.Load("conf/config.yaml")
+	if err != nil {
+		log.Fatal(err)
+	}
+	global.Config = conf
+
+	//日志
+	logger.InitDefault(conf.Log, conf.LogLevel)
+
+	//api
+	a := api.New(conf.WeChatApiAddress)
+	global.Api = a
+
+	//qun处理模块
+	qun.DefaultHandler = qun.New(global.Config.QunManager)
 }
